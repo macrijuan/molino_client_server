@@ -13,7 +13,7 @@ const router = Router();
 //   },
 //   diet, dish, reservation, table, user
 // );
-router.get("/another_test", async(req,res)=>{
+router.get("/test", async(req,res)=>{
   res.send("HOLAAAA");
 });
 
