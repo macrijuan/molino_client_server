@@ -6,6 +6,6 @@ const test = require("./OtherTest").handler;
 
 router.get("/", (req,res)=>{res.send('API status: OK')});
 
-router.use( "/public", test.handler );
+router.use( "/public", test );
 
 module.exports.handler = router;
