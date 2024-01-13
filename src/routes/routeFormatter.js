@@ -1,5 +1,5 @@
 const { Op }= require("sequelize");
-const { errJSON, notFound } = require("./errors").handler;
+const { errJSON, notFound } = require("./errors");
 
 function relationGetter(model, exclude, res ){
   res.locals.data = { 
@@ -55,7 +55,7 @@ async function getMany(Model, query, res, notFoundData){
   });
 };
 
-module.exports.handler = {
+module.exports = {
   relationGetter,
   getMany
 };

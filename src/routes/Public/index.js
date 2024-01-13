@@ -5,4 +5,4 @@ router.get("/", async(req,res)=>{
   res.json("HOLAAAA");
 });
 
-module.exports.handler=router;
+module.exports=router;

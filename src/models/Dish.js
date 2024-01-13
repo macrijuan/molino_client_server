@@ -1,8 +1,8 @@
 const { STRING, ARRAY, BOOLEAN, TEXT, INTEGER, ENUM } = require('sequelize');
-const {arrayValidator} = require("../models_validations").handler;
-const { dobleSpaceEraser }=require("../formatter").handler;
+const {arrayValidator} = require("../models_validations");
+const { dobleSpaceEraser }=require("../formatter");
 
-module.exports.handler = (sequelize) => {
+module.exports = (sequelize) => {
   return sequelize.define('dish', {
     // id:{
     //   type: UUID,

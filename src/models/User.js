@@ -1,6 +1,6 @@
 const { STRING, BOOLEAN } = require('sequelize');
 
-module.exports.handler = (sequelize) => {
+module.exports = (sequelize) => {
   return sequelize.define('user', {
     // id:{
     //   type: UUID,

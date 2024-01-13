@@ -29,7 +29,7 @@ const modelDefiners = [
   require("./models/User.js")
 ];
 
-modelDefiners.forEach(model => model.handler(sequelize));
+modelDefiners.forEach(model => model(sequelize));
 
 let entries = Object.entries(sequelize.models);
 let capsEntries = entries.map((entry) => {
@@ -50,7 +50,7 @@ Reservation.hasOne( Table, { foreignKey:"ticket reserve", as:"ticket reserve" } 
 Diet.belongsToMany( Dish, { through:"dish_diets", timestamps:false } );
 Dish.belongsToMany( Diet, { through:"dish_diets", timestamps:false } );
 
-module.exports.handler = {
+module.exports = {
   ...sequelize.models,
   conn: sequelize,
 };

@@ -46,7 +46,7 @@ function yearValidator (year){
   ) err(yearValidator.name, "year doesn't have correct format. Check the yearValidator function.");
 };
 
-module.exports.handler={
+module.exports={
 	arrayValidator,
 	dateValidatror,
 	jsonValidator,
