@@ -1,6 +1,6 @@
 const {Router}=require("express");
 const router = Router();
-const getDiet = require("./Get").handler;
+const getDiet = require("./Get/index.js").handler;
 
 router.use("/diet", getDiet);
 

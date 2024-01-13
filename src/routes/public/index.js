@@ -1,10 +1,10 @@
 const { Router } = require('express');
 const router = Router();
-const diet = require("./Diet").handler;
-const dish = require("./Dish").handler;
-const reservation = require("./Reservation").handler;
-const table = require("./Table").handler;
-const user = require("./User").handler;
+const diet = require("./Diet/index.js").handler;
+const dish = require("./Dish/index.js").handler;
+const reservation = require("./Reservation/index.js").handler;
+const table = require("./Table/index.js").handler;
+const user = require("./User/index.js").handler;
 
 router.use(
   ( req, res, next )=>{ 

@@ -3,9 +3,8 @@ const router = Router();
 const format = require("../Controller/format.js").handler;
 const existing = require("../Controller/existing.js").handler;
 const maxResrs = require("../Controller/maximum.js").handler;
-const { Reservation, User }=require("../../../../db").handler;
-const { todayResrTimer, futureDayResrTimer } = require("./timers").handler;
-const { errJSON, unknown, notFound } = require("../../../error").handler;
+const { Reservation, User, Table }=require("../../../../db.js").handler;
+const { errJSON, unknown, notFound } = require("../../../error.js").handler;
 
 router.post("/post_reservation/:user",
 (req,res,next)=>{res.locals.user = req.params.user; next();},
@@ -15,23 +14,42 @@ existing,
 async(req,res)=>{
   try{
     User.findByPk(req.params.user)
-    .then(user=>{
+    .then(async user=>{
       if(user){
-        res.locals.date = new Date(req.body.date);
-        Reservation.create({
-          table:req.body.table,
-          date:res.locals.date,
-          user:user.id
-        }).then(async resr=>{
-          if(res.locals.date.toISOString().split("T")[0]=== new Date().toISOString().split("T")[0]){
-            console.log("Reservation for today");
-            await todayResrTimer(resr, res.locals.date);
-            res.json({message:`The table ${resr.table} has been reserved for the date ${res.locals.date}`});
-          }else{
-            console.log("Reservation for a future day");
-            await futureDayResrTimer(resr, res.locals.date);
-            res.json({message:`The table ${resr.table} has been reserved for the date ${res.locals.date.toLocaleDateString(undefined, {year:"numeric", month:"long", day:"numeric", weekday:"long"})} at ${res.locals.date.toLocaleTimeString()}`});
-          };
+        res.locals.ticket = undefined;
+        console.log("TIME:", res.locals.date.getTime() -  Date.now());
+        const timer = setTimeout(async ()=>{
+          Reservation.findByPk(res.locals.ticket)
+          .then(async resr=>{
+            console.log(resr);
+            if(resr){
+              resr.update({expired:true})
+              .then(resr=>resr.save()
+                .then(resr=>{
+                  console.log(`Reserve ${resr.ticket} of user ${res.locals.user} has expired.`);
+                }
+              ));
+            };
+          });
+        }, res.locals.date.getTime() -  Date.now() + 900000); // The restaurant holds the reservation during extra 15 mins = 900000 ms
+        Table.findByPk(req.body.table)
+        .then(async table=>{
+          Reservation.create({
+            year:req.body.year,
+            month:req.body.month,
+            day:req.body.day,
+            time:req.body.time,
+            deletion_code:parseInt(timer),
+            userId:user.id,
+            tableId:table.id
+          }).then(async resr=>{
+            if(resr){
+              res.locals.ticket = resr.ticket;
+              res.json(resr);
+              await resr.setUser(user);
+              await resr.setTable(table);
+            }else {res.status(500).json(errJSON("unknown",unknown));};
+          });
         });
       }else{
         res.status(404).json(errJSON("not_found", notFound("User")));
