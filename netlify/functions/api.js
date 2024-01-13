@@ -3,7 +3,7 @@ const app = express();
 const serverless = require("serverless-http");
 
 const { conn } = require("../../src/db.js").handler;
-const routes = require("../../src/routes/index.js").handler;
+const routes = require("../../src/routes").handler;
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', 'https://molino-client-web-site.vercel.app');

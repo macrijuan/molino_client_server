@@ -13,6 +13,6 @@ router.get("/test", async(req,res)=>{
 });
 
 // router.use("/public", public);
-router.use("/public", public);
+router.use("/public", test);
 
 module.exports.handler = router;
