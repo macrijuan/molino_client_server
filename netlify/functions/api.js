@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const serverless = require("serverless-http");
+const { unknown } = require("../../src/routes/errors.js");
 
 const { conn } = require("../../src/db.js");
 const routes = require("../../src/routes");
@@ -17,7 +18,7 @@ app.use("/.netlify/functions/api",
 async (req, res, next)=>{
   conn.authenticate()
   .then(()=>{ next(); })
-  .catch((err)=>{ console.log(err); res.send("DB connection failed."); })
+  .catch((err)=>{ console.log(err); res.json({errors:{unknown}}); })
 },
 routes);
 
