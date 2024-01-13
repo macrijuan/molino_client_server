@@ -2,7 +2,7 @@ const { Router }=require("express");
 const router = Router();
 
 router.get("/asdf", (res,res)=>{
-  res.send("HEY!");
+  res.json("HEY!");
 });
 
 module.exports.handler = router;
