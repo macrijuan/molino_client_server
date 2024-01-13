@@ -2,7 +2,7 @@ const { Router } = require('express');
 const router = Router();
 const { Dish } = require("../db.js").handler;
 // const public = require("./Test").handler;
-const test = require("./OtherTest").handler;
+const test = require("./Public").handler;
 
 router.get("/", (req,res)=>{res.send('API status: OK')});
 
