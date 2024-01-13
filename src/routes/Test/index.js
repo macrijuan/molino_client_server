@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const router = Router();
 
-router.get("/test", async(req,res)=>{
+router.get("/test", (req,res)=>{
   res.send("HOLAAAA");
 });
 

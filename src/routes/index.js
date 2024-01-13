@@ -11,6 +11,6 @@ router.get("/test", async(req,res)=>{
   }).catch(err=>res.send(err));
 });
 
-router.use( "/public", public );
+router.use( "/testing", public );
 
 module.exports.handler = router;
