@@ -1,7 +1,7 @@
 const {Router}=require("express");
 const router = Router();
 const {Reservation}=require("../../../../db.js").handler;
-const {errJSON, unknown}=require("../../../error.js").handler;
+const {errJSON, unknown}=require("../../../errors.js").handler;
 
 router.use(async(req,res,next)=>{
   try{

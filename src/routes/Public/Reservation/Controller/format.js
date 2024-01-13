@@ -1,7 +1,7 @@
 const {Router}=require("express");
 const router = Router();
 const { tableValidator, yearValidator, monthValidator, dayValidator, timeValidator, userOwnerValidator }=require("../validation.js").handler;
-const { isMandatory } = require("../../../error.js").handler;
+const { isMandatory } = require("../../../errors.js").handler;
 const { Reservation } = require("../../../../db.js").handler;
 
 router.use((req,res,next)=>{

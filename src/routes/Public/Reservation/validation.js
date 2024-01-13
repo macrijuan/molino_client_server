@@ -1,4 +1,4 @@
-const { wrongNumberSize, isMandatory }=require("../../error");
+const { wrongNumberSize, isMandatory }=require("../../errors");
 
 function tableValidator (table, errors){
   errors.table = [];

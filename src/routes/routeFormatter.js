@@ -1,5 +1,5 @@
 const { Op }= require("sequelize");
-const { errJSON, notFound } = require("./error").handler;
+const { errJSON, notFound } = require("./errors").handler;
 
 function relationGetter(model, exclude, res ){
   res.locals.data = { 

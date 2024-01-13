@@ -1,7 +1,7 @@
 const { Router }=require("express");
 const router = Router();
 const { Reservation }=require("../../../../db.js").handler;
-const { errJSON, notFound, unknown }=require("../../../error.js").handler;
+const { errJSON, notFound, unknown }=require("../../../errors.js").handler;
 
 router.delete("/delete_reservation/:user/:ticket",
   async(req,res)=>{

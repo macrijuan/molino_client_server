@@ -1,7 +1,7 @@
 const{Router}=require("express");
 const router = Router();
 const{setAdminAsDeleted}=require("./controller.js").handler;
-const error = require("../../../error.js").handler;
+const error = require("../../../errors.js").handler;
 
 router.delete("/delete_user/:id",async(req,res)=>{
   try{

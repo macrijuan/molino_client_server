@@ -3,7 +3,7 @@ const router = Router();
 const format = require("./Controller/format.js").handler;
 const existing = require("./Controller/existing.js").handler;
 const{ User }=require("../../../../db.js").handler;
-const { notFound, unknown, errJSON } = require("../../../error.js").handler;
+const { notFound, unknown, errJSON } = require("../../../errors.js").handler;
 
 router.put("/update_user/:id",
   (req,res,next)=>{res.locals.params=req.params; next();},

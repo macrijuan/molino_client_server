@@ -3,7 +3,7 @@ const router = Router();
 const format = require("./Controller/format.js").handler;
 const existing = require("./Controller/existing.js").handler;
 const { User }=require("../../../../db.js").handler;
-const { unknown }=require("../../../error.js").handler;
+const { unknown }=require("../../../errors.js").handler;
 const { dobleSpaceEraser }=require("../../../../formatter.js").handler;
 
 router.post("/post_user", format, existing, async(req,res)=>{

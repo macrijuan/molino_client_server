@@ -3,7 +3,7 @@ const router = Router();
 const format = require("./Controller/format.js").handler;
 const clauseSetter = require("./Controller/clauseSetter.js").handler;
 const {Dish}=require("../../../../db.js").handler;
-const {notFound, unknown, errJSON} = require("../../../error.js").handler;
+const {notFound, unknown, errJSON} = require("../../../errors.js").handler;
 
 router.get("/get_dishes", async(req,res)=>{
 	try{

@@ -3,7 +3,7 @@ const { Router } = require("express");
 const router = Router();
 const searchFormat = require("./Controller/format.js").handler;
 const { Diet }=require("../../../../db.js").handler;
-const { notFound, unknown } = require("../../../error.js").handler;
+const { notFound, unknown } = require("../../../errors.js").handler;
 
 router.get("/get_diets", async(req,res)=>{
   try{

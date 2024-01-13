@@ -1,7 +1,7 @@
 const{Router}=require("express");
 const router = Router();
 const{emailValidator, passwordValidator, namesValidator}= require("../../validation.js").handler;
-const {unknown}=require("../../../../error.js").handler;
+const {unknown}=require("../../../../errors.js").handler;
 
 router.use((req, res, next)=>{
   try{

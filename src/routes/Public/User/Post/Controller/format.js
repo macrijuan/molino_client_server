@@ -1,6 +1,6 @@
 const {Router}=require("express");
 const router = Router();
-const error = require("../../../../error").handler;
+const error = require("../../../../errors").handler;
 const{emailValidator,passwordValidator,namesValidator}=require("../../validation").handler;
 
 router.use(async(req, res, next)=>{

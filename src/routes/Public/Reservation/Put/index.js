@@ -3,7 +3,7 @@ const router = Router();
 const format = require("../Controller/format.js").handler;
 const existing = require("../Controller/existing.js").handler;
 const { Reservation }=require("../../../../db.js").handler;
-const { errJSON, notFound, unknown } = require("../../../error.js").handler;
+const { errJSON, notFound, unknown } = require("../../../errors.js").handler;
 
 router.put("/update_reservation/:user/:ticket",
 (req,res,next)=>{ res.locals.user = req.params.user; res.locals.update=true; next(); },

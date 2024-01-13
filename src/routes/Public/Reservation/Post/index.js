@@ -4,7 +4,7 @@ const format = require("../Controller/format.js").handler;
 const existing = require("../Controller/existing.js").handler;
 const maxResrs = require("../Controller/maximum.js").handler;
 const { Reservation, User, Table }=require("../../../../db.js").handler;
-const { errJSON, unknown, notFound } = require("../../../error.js").handler;
+const { errJSON, unknown, notFound } = require("../../../errors.js").handler;
 
 router.post("/post_reservation/:user",
 (req,res,next)=>{res.locals.user = req.params.user; next();},

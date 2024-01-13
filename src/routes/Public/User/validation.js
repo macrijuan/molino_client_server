@@ -6,7 +6,7 @@ const number = /^[\d]{1,32}$/;//test 4
 
 const nameFormat = /^[a-zà-ÿA-ZÀ-Ý ]*$/;
 
-const {wrongCharType, wrongLengthBetween, wrongDataType, isMandatory, atLeastOne, cantContain} = require("../../error");
+const {wrongCharType, wrongLengthBetween, wrongDataType, isMandatory, atLeastOne, cantContain} = require("../../errors");
 
 //EVERY FUNCTION HERE SETS res.locals.errors arrays.
 

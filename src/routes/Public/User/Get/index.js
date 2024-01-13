@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 const { User } = require("../../../../db.js").handler;
-const { errJSON, notFound, unknown } = require("../../../error.js").handler;
+const { errJSON, notFound, unknown } = require("../../../errors.js").handler;
 
 router.get("/get_users", async(req,res)=>{
   try{

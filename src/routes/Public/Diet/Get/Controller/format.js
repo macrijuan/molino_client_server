@@ -1,6 +1,6 @@
 const{ Router }=require("express");
 const router = Router();
-const { isMandatory, maxLength }=require("../../../../error.js").handler;
+const { isMandatory, maxLength }=require("../../../../errors.js").handler;
 
 router.use((req,res,next)=>{
   res.locals.errors = {};

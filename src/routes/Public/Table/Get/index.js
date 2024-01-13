@@ -1,6 +1,6 @@
 const { Router }=require("express");
 const router = Router();
-const { errJSON, notFound, unknown }=require("../../../error.js").handler;
+const { errJSON, notFound, unknown }=require("../../../errors.js").handler;
 const { Table }=require("../../../../db.js").handler;
 const { getMany }=require("../../../routeFormatter.js").handler
 
