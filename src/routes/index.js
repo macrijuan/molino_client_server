@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 
-const public = require("./Public").handler;
+const public = require("./Test").handler;
 
 router.get("/", (req,res)=>{res.send('API status: OK')});
 
