@@ -8,7 +8,7 @@ const user = require("./User/index.js").handler;
 
 router.use(
   ( req, res, next )=>{ 
-    if( req.body.length ) req.body = JSON.parse( req.body );
+    if( Buffer.isBuffer(req.body) && req.body.length ) req.body = JSON.parse( req.body );
     next(); 
   },
   diet, dish, reservation, table, user
