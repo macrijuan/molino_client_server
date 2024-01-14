@@ -9,6 +9,6 @@ router.get("/test", async(req,res)=>{
   Diet.findAll().then(diets=>{res.json(diets)}).catch(err=>{res.json({err:err})});
 });
 
-router.use("/public",t); //t
+router.use("/t",t); //t
 
 module.exports = router;
