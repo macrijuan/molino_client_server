@@ -29,4 +29,4 @@ app.use((err, req, res, next) => {
   res.status(status).send(message);
 });
 
-module.exports = serverless(app);
+module.exports.handler = serverless(app);
