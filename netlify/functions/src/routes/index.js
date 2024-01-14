@@ -1,8 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 const {Diet}=require("../db.js");
-// const public = require("./Public");
-const t = require("./public/index.js");
+const t = require("./Public/index.js");
 
 router.get("/", (req,res)=>{res.send('API status: OK')});
 
