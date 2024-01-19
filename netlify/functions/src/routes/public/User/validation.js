@@ -20,8 +20,7 @@ function emailValidator(email, routeErrors){
   if(!routeErrors.email.length)delete routeErrors.email;
 };
 
-function passwordValidator (password, routeErrors, approved){
-  console.log(password)
+function passwordValidator (password, conf_password, routeErrors, approved){
   routeErrors.password = [];
   if(!password || !password.length){routeErrors.password.push(isMandatory("password"));return;};
   password.split("").forEach(e=>{
@@ -30,12 +29,13 @@ function passwordValidator (password, routeErrors, approved){
     if(uppercase.test(e)&&!approved.includes(3)){approved.push(3)};
     if(number.test(e)&&!approved.includes(4)){approved.push(4)};
   });
-  if (!approved.includes(1))routeErrors.password.push(atLeastOne("password", "of the following special characters inside the brackets (brackets not included) [ @ $ ! % * ? & ]"));
-  if (!approved.includes(2))routeErrors.password.push(atLeastOne("password", "lowercase letter"));
-  if (!approved.includes(3))routeErrors.password.push(atLeastOne("password", "uppercase letter"));
-  if (!approved.includes(4))routeErrors.password.push(atLeastOne("password", "number"));
-  if (password.length<8 || password.length>35)routeErrors.password.push(wrongLengthBetween("password", 8, 35));
-  if (password.split("").includes(" "))routeErrors.password.push(cantContain("password", "spaces"));
+  if(!approved.includes(1))routeErrors.password.push(atLeastOne("password", "of the following special characters inside the brackets (brackets not included) [ @ $ ! % * ? & ]"));
+  if(!approved.includes(2))routeErrors.password.push(atLeastOne("password", "lowercase letter"));
+  if(!approved.includes(3))routeErrors.password.push(atLeastOne("password", "uppercase letter"));
+  if(!approved.includes(4))routeErrors.password.push(atLeastOne("password", "number"));
+  if(password.length<8 || password.length>35)routeErrors.password.push(wrongLengthBetween("password", 8, 35));
+  if(password.split("").includes(" "))routeErrors.password.push(cantContain("password", "spaces"));
+  if(!(password===conf_password))routeErrors.password.push("Denied password confirmation. The values are not the same.");
   if(!routeErrors.password.length)delete routeErrors.password;
 };
 
