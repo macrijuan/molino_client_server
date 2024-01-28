@@ -8,7 +8,7 @@ const { notFound, unknown, errJSON } = require("../../../errors.js");
 
 router.get("/get_dishes", async(req,res)=>{
 	try{
-		relationGetter( Diet, [ "id", "description" ] );
+		relationGetter( Diet, [ "id", "description" ], res );
 		await getMany( Dish, req.query, res, "Dishes" );
 	}catch( err ){
 		console.log( err );
