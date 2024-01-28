@@ -3,18 +3,12 @@ const { Router } = require("express");
 const router = Router();
 const searchFormat = require("./Controller/format.js");
 const { Diet }=require("../../../../db.js");
+const { getMany } = require("../../../routeFormatter.js");
 const { notFound, unknown } = require("../../../errors.js");
 
 router.get("/get_diets", async(req,res)=>{
   try{
-    Diet.findAndCountAll({limit:req.query.perPage, offset:req.query.index, attributes:{exclude:["updatable"]}})
-    .then(diets=>{
-      if(diets&&diets.rows.length){
-        ;res.json(diets);
-      }else{
-        res.status(404).json({errors:{not_found:notFound("Diets")}});
-      };
-    });
+    await getMany(Diet, req.query, res, "Diets");
   }catch(err){
     res.status(500).json({errors:{unknown:unknown}});
   }

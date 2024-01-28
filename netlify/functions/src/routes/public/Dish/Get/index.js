@@ -2,22 +2,17 @@ const { Router } = require('express');
 const router = Router();
 const format = require("./Controller/format.js");
 const clauseSetter = require("./Controller/clauseSetter.js");
-const {Dish}=require("../../../../db.js");
-const {notFound, unknown, errJSON} = require("../../../errors.js");
+const { Dish, Diet }=require("../../../../db.js");
+const { getMany, relationGetter } = require("../../../routeFormatter.js");
+const { notFound, unknown, errJSON } = require("../../../errors.js");
 
 router.get("/get_dishes", async(req,res)=>{
 	try{
-		Dish.findAndCountAll({limit:req.query.perPage, offset:req.query.index, attributes:{exclude:["updatable"]}})
-		.then((result)=>{
-			if(result&&result.rows.length){
-				res.status(200).json(result);
-			}else{
-				res.status(404).json(errJSON("not_found", notFound("Dish")));
-			};
-		});
-	}catch(err){
-		console.log(err);
-		res.status(500).json(errJSON("unknown", unknown));
+		relationGetter( Diet, [ "id", "description" ] );
+		await getMany( Dish, req.query, res, "Dishes" );
+	}catch( err ){
+		console.log( err );
+		res.status( 500 ).json( errJSON( "unknown", unknown ) );
 	};
 });
 
