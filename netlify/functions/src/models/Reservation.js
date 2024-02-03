@@ -28,7 +28,7 @@ module.exports = (sequelize)=>{
       type: INTEGER,
       allowNull:false,
       validate:{
-        max:31, min:1
+        max:32, min:1
       }
     },
     time: {
