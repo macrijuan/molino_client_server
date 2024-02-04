@@ -1,8 +1,8 @@
 const { Router } = require('express');
 const router = Router();
-const { Op, literal, fn } = require("sequelize");
+const { Op } = require("sequelize");
 const format = require("./Controller/format.js");
-const clauseSetter = require("./Controller/clauseSetter.js");
+// const clauseSetter = require("./Controller/clauseSetter.js");
 const { Dish, Diet, dish_diets }=require("../../../../db.js");
 const { getMany, relationGetter } = require("../../../routeFormatter.js");
 const { notFound, unknown, errJSON } = require("../../../errors.js");
@@ -10,7 +10,6 @@ const { notFound, unknown, errJSON } = require("../../../errors.js");
 router.get("/get_dishes", async(req,res)=>{
 	try{
 		if(!req.query.diets)relationGetter( Diet, [ "id", "description" ], res );
-		// res.json();
 		await getMany( Dish, req.query, res, "Dishes" );
 	}catch( err ){
 		console.log( err );

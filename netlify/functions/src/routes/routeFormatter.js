@@ -31,7 +31,10 @@ async function getMany(Model, query, res, notFoundData){
     queries.forEach(prop=>{
       if(prop!=="diets"){
         switch(Model.getAttributes()[prop].type.constructor.key){
-          case "ARRAY": res.locals.data.where[prop]={ ...res.locals.data.where[prop], [Op.contains]:JSON.parse( query.ingredients ) };
+          case "ARRAY":
+            query[prop] = JSON.parse( query[prop] );
+            query[prop].forEach(el=>{el=el.toLowerCase()});
+            res.locals.data.where[prop]={ ...res.locals.data.where[prop], [Op.contains]:query[prop] };
           break;
           case "STRING": res.locals.data.where[prop]={ ...res.locals.data.where[prop], [Op.substring]:query[prop] };
           break;
