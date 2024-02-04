@@ -33,10 +33,12 @@ async function getMany(Model, query, res, notFoundData){
         switch(Model.getAttributes()[prop].type.constructor.key){
           case "ARRAY":
             query[prop] = JSON.parse( query[prop] );
-            query[prop].forEach(el=>{el=el.toLowerCase()});
+            query[prop] = query[prop].map(el=>el.toLowerCase());
             res.locals.data.where[prop]={ ...res.locals.data.where[prop], [Op.contains]:query[prop] };
           break;
-          case "STRING": res.locals.data.where[prop]={ ...res.locals.data.where[prop], [Op.substring]:query[prop] };
+          case "STRING":
+            query[prop] = query[prop].toLowerCase();
+            res.locals.data.where[prop]={ ...res.locals.data.where[prop], [Op.substring]:query[prop] };
           break;
           default: res.locals.data.where[prop]=query[prop];
         };
