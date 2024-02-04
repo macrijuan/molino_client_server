@@ -4,14 +4,20 @@ const router = Router();
 const searchFormat = require("./Controller/format.js");
 const { Diet }=require("../../../../db.js");
 const { getMany } = require("../../../routeFormatter.js");
-const { notFound, unknown } = require("../../../errors.js");
+const { notFound, unknown, errJSON } = require("../../../errors.js");
 
 router.get("/get_diets", async(req,res)=>{
   try{
-    await getMany(Diet, req.query, res, "Diets");
+    Diet.findAll({ attributes:[ "name" ] }).then(diets=>{
+      if(diets&&diets.length){
+        res.json( diets.map( diet=>diet.name ) );
+      }else{
+        res.status(404).json( errJSON( "not_found", notFound("Diets") ) );
+      };
+    });
   }catch(err){
-    res.status(500).json({errors:{unknown:unknown}});
-  }
+    res.status(500).json(errJSON("unknown", unknown));
+  };
 });
 
 router.get("/get_diet/:id", async(req,res)=>{

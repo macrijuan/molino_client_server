@@ -38,7 +38,6 @@ function jsonValidator(json, keys, values){
 };
 
 function yearValidator (year){
-  errors.year = [];
   if(
     typeof year !== "number"
     || isNaN(year)

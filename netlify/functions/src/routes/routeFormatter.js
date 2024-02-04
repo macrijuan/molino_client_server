@@ -1,5 +1,6 @@
 const { Op }= require("sequelize");
-const { errJSON, notFound } = require("./errors");
+const { errJSON, notFound } = require("./errors.js");
+const { Diet } = require( "../db.js" );
 
 function relationGetter( model, exclude, res ){
   res.locals.data = { 
@@ -23,14 +24,14 @@ async function getMany(Model, query, res, notFoundData){
     limit:(query.perPage || 12),
     offset:(query.index || 0)
   };
-  
-  const queries = Object.keys(query).filter(prop=>(prop!=="perPage" && prop!=="index" && prop !=="options"));
+
+  const queries = Object.keys(Model.getAttributes()).filter(prop=>Object.keys(query).includes(prop));
   if(queries.length){
     if(!res.locals.data.where)res.locals.data.where={};
     queries.forEach(prop=>{
-      if(!res.ignore){
+      if(prop!=="diets"){
         switch(Model.getAttributes()[prop].type.constructor.key){
-          case "ARRAY": res.locals.data.where[prop]={ ...res.locals.data.where[prop], [Op.contains]:JSON.parse( query.ingredients ).data };
+          case "ARRAY": res.locals.data.where[prop]={ ...res.locals.data.where[prop], [Op.contains]:JSON.parse( query.ingredients ) };
           break;
           case "STRING": res.locals.data.where[prop]={ ...res.locals.data.where[prop], [Op.substring]:query[prop] };
           break;
@@ -38,6 +39,16 @@ async function getMany(Model, query, res, notFoundData){
         };
       };
     });
+  }else if(query.diets){
+    res.locals.data.include={
+      model:Diet,
+      where:{
+        name:{ [ Op.in ]:JSON.parse( query.diets ) }
+      },
+      attributes:[ 'name' ],
+      through:{ attributes:[] },
+      distinct:true 
+    }
   };
   Model.findAndCountAll(res.locals.data)
   .then(_data=>{
