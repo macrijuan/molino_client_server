@@ -3,7 +3,7 @@ const router = Router();
 const { Op } = require("sequelize");
 const format = require("./Controller/format.js");
 // const clauseSetter = require("./Controller/clauseSetter.js");
-const { Dish, Diet, dish_diets }=require("../../../../db.js");
+const { Dish, Diet }=require("../../../../db.js");
 const { getMany, relationGetter } = require("../../../routeFormatter.js");
 const { notFound, unknown, errJSON } = require("../../../errors.js");
 

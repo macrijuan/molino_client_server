@@ -45,10 +45,12 @@ async function getMany(Model, query, res, notFoundData){
       };
     });
   }else if(query.diets){
+    query.diets = JSON.parse( query.diets );
+    query.diets = query.diets.map(diet=>diet.toLowerCase());
     res.locals.data.include={
       model:Diet,
       where:{
-        name:{ [ Op.in ]:JSON.parse( query.diets ) }
+        name:{ [ Op.in ]:query.diets }
       },
       attributes:[ 'name' ],
       through:{ attributes:[] },
