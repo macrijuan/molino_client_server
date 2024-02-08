@@ -9,28 +9,27 @@ const { notFound, unknown, errJSON } = require("../../../errors.js");
 
 router.get("/get_dishes", async(req,res)=>{
 	try{
-		if(!req.query.diets)relationGetter( Diet, [ "id", "description" ], res );
+		if(req.query.diets){
+			req.query.diets = JSON.parse( req.query.diets );
+			req.query.diets = req.query.diets.map(diet=>diet.toLowerCase());
+			res.locals.data = {
+				include:[{
+					model:Diet,
+					where:{
+						name:{ [ Op.in ]:req.query.diets }
+					},
+					attributes:[ 'name' ],
+					through:{ attributes:[] },
+				}],
+				distinct: true
+			};
+		}else{
+			relationGetter( Diet, [ "name" ], res );
+		};
 		await getMany( Dish, req.query, res, "Dishes" );
 	}catch( err ){
 		console.log( err );
 		res.status( 500 ).json( errJSON( "unknown", unknown ) );
-	};
-});
-
-router.get("/get_dish/:id", async(req,res)=>{
-	try{
-		Dish.findByPk(req.params.id)
-		.then((result)=>{
-			if(result){
-				delete result.dataValues.updatable;
-				res.json(result);
-			}else{
-				res.status(404).json(errJSON("not_found", notFound("Dish")));
-			};
-		});
-	}catch(err){
-		console.log(err);
-		res.status(500).json(errJSON("unknown", unknown));
 	};
 });
 
@@ -47,25 +46,7 @@ async(req,res)=>{
 router.get("/test",
 async(req,res)=>{
 	try{
-		Dish.findAndCountAll({
-			limit:12,
-			offset:0,
-			include:{
-				model:Diet,
-				where:{
-					name:{ [ Op.in ]:JSON.parse( req.query.diets ) }
-				},
-				attributes:[ 'name' ],
-				through:{ attributes:[] }
-			}
-		})
-		.then(dishes=>{
-			if(dishes.rows.length){
-				res.json(dishes);
-			}else{
-				res.status(500).json(errJSON("not_found", notFound("Dishes")));
-			};
-		});
+
 	}catch(err){
 		console.log(err);
 		res.status(500).json(errJSON("unknown", unknown));

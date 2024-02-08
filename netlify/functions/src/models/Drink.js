@@ -1,9 +1,9 @@
 const { STRING, ARRAY, BOOLEAN, TEXT, INTEGER, ENUM } = require('sequelize');
-const {arrayValidator} = require("../models_validations");
-const { dobleSpaceEraser }=require("../formatter");
+const {arrayValidator} = require("../models_validations.js");
+const { dobleSpaceEraser }=require("../formatter.js");
 
 module.exports = (sequelize) => {
-  return sequelize.define('dish', {
+  return sequelize.define('drink', {
     // id:{
     //   type: UUID,
     //   primaryKey:true,
@@ -24,13 +24,22 @@ module.exports = (sequelize) => {
 
     ingredients:{
       type: ARRAY(STRING),
-      allowNull: false,
       set(value){
-        this.setDataValue("ingredients", value = dobleSpaceEraser(value));
-        this.setDataValue("ingredients", value = value.map(i=>i.toLowerCase()));
+        if(value){
+          this.setDataValue("ingredients", value = dobleSpaceEraser(value));
+          this.setDataValue("ingredients", value = value.map(i=>i.toLowerCase()));
+        };
       },
       validate:{
         arrValidation:function(value){arrayValidator(value, "Ingredient", 1, 30)}
+      }
+    },
+
+    volumen:{
+      type: STRING,
+      allowNull:false,
+      validate:{
+        len:[6,8]
       }
     },
     
@@ -53,7 +62,7 @@ module.exports = (sequelize) => {
     },
 
     taste:{
-      type:ENUM('salty', 'sweet', 'sour', 'bittersweet', 'bitter', 'spicy'),
+      type:ENUM('sweet', 'sour', 'bittersweet', 'bitter'),
       allowNull:false
     },
 
@@ -64,6 +73,11 @@ module.exports = (sequelize) => {
         max:100000,
         min:0
       }
+    },
+
+    alcoholic:{
+      type:BOOLEAN,
+      defaultValue:false
     },
 
     available:{
