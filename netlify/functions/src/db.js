@@ -1,28 +1,12 @@
 const { Sequelize } = require('sequelize');
-const pg = require('pg');
 require("dotenv").config();
+const dbConfig = require("./dbConfig.js");
 
-let sequelize = new Sequelize(`postgres://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}`, {
-  dialectModule: pg,
-  logging: false,
-  native:false,
-  ssl: true,
-  dialectOptions: {
-    ssl: {
-      require: true
-    }
-  },
-  pool: {
-    max: 2,
-    min: 0,
-    idle: 0,
-    acquire: 4000,
-    evict: process.env.CURRENT_LAMBDA_FUNCTION_TIMEOUT
-  }
-});
+let sequelize = new Sequelize( `postgres://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}`, dbConfig );
 
 const modelDefiners = [
   require("./models/Diet.js"),
+  require("./models/Drink.js"),
   require("./models/Dish.js"),
   require("./models/Reservation.js"),
   require("./models/Table.js"),
@@ -38,7 +22,7 @@ let capsEntries = entries.map((entry) => {
 sequelize.models = Object.fromEntries(capsEntries);
 
 
-const { Diet, Dish, User, Reservation, Table } = sequelize.models;
+const { Diet, Drink, Dish, User, Reservation, Table } = sequelize.models;
 
 Reservation.hasOne( User );
 
@@ -49,6 +33,9 @@ Reservation.hasOne( Table, { foreignKey:"ticket reserve", as:"ticket reserve" } 
 
 Diet.belongsToMany( Dish, { through:"dish_diets", timestamps:false } );
 Dish.belongsToMany( Diet, { through:"dish_diets", timestamps:false } );
+
+Diet.belongsToMany( Drink, { through:"drink_diets", timestamps:false } );
+Drink.belongsToMany( Diet, { through:"drink_diets", timestamps:false } );
 
 module.exports = {
   ...sequelize.models,
