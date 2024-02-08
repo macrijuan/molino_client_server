@@ -2,5 +2,5 @@
 node_modules
 package-lock.json
 test.js
-index.js
 dbConfig.js
+/index.js
