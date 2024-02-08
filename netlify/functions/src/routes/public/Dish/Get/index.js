@@ -1,11 +1,11 @@
 const { Router } = require('express');
 const router = Router();
 const { Op } = require("sequelize");
-const format = require("./Controller/format.js");
+// const format = require("./Controller/format.js");
 // const clauseSetter = require("./Controller/clauseSetter.js");
 const { Dish, Diet }=require("../../../../db.js");
 const { getMany, relationGetter } = require("../../../routeFormatter.js");
-const { notFound, unknown, errJSON } = require("../../../errors.js");
+const { unknown, errJSON } = require("../../../errors.js");
 
 router.get("/get_dishes", async(req,res)=>{
 	try{
