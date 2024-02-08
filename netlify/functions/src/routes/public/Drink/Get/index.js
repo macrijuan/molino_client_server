@@ -4,7 +4,7 @@ const { Op }  = require("sequelize");
 const { Drink, Diet } = require("../../../../db.js");
 const { getMany, relationGetter } = require("../../../routeFormatter.js");
 
-router.get("/drink/get_drinks", async(req,res)=>{
+router.get("/get_drinks", async(req,res)=>{
   if(req.query.diets){
     req.query.diets = JSON.parse( req.query.diets );
     req.query.diets = req.query.diets.map(diet=>diet.toLowerCase());
