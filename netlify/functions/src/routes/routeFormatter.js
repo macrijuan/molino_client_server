@@ -1,13 +1,12 @@
 const { Op }= require("sequelize");
 const { errJSON, notFound } = require("./errors.js");
-const { Diet } = require( "../db.js" );
 
-function relationGetter( model, exclude, res ){
+function relationGetter( model, attributes, res ){
   res.locals.data = { 
     include:[ 
       {
         model, 
-        attributes:{ exclude:exclude },
+        attributes,
         through:{ attributes:[] }
       } 
     ],
@@ -16,15 +15,14 @@ function relationGetter( model, exclude, res ){
 };
 
 async function getMany(Model, query, res, notFoundData){
-
   if(!res.locals.data)res.locals.data={};
   res.locals.data={
     ...res.locals.data,
     attributes:{...res.locals.data.attributes},
     limit:(query.perPage || 12),
-    offset:(query.index || 0)
+    offset:(query.index || 0),
+    order: [["id", "ASC"]]
   };
-
   const queries = Object.keys(Model.getAttributes()).filter(prop=>Object.keys(query).includes(prop));
   if(queries.length){
     if(!res.locals.data.where)res.locals.data.where={};
@@ -44,27 +42,18 @@ async function getMany(Model, query, res, notFoundData){
         };
       };
     });
-  }else if(query.diets){
-    res.locals.data.include={
-      model:Diet,
-      where:{
-        name:{ [ Op.in ]:JSON.parse( query.diets ) }
-      },
-      attributes:[ 'name' ],
-      through:{ attributes:[] },
-      distinct:true 
-    }
   };
+
   Model.findAndCountAll(res.locals.data)
   .then(_data=>{
     if(_data&&_data.rows.length){
-      if(Model.name==="dish"){
+      if( Model.name==="dish" || Model.name==="drink" ){
         for(let a = 0; a<_data.rows.length; a++){
           _data.rows[a] = _data.rows[a].get({plain:true});
           _data.rows[a].diets = _data.rows[a].diets.map(diet=>diet.name);
         };
       };
-      res.json(_data);
+      res.json( _data );
     }else{
       res.status(404).json(errJSON("not_found", notFound(notFoundData)));
     };
