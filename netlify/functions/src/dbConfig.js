@@ -1,3 +1,5 @@
+const pg = require("pg");
+
 module.exports = {
   dialectModule: pg,
   logging: false,
